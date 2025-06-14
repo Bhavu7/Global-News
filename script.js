@@ -1,8 +1,8 @@
 // Configuration
 const API_KEYS = {
-  newsapi: "2bc8d27aae254aaca3ddbb7327c19dbd",
-  gnews: "fef48df4fdad13f6c52033b4278515b4",
-  mediastack: "71abb6c5fc1aebd57b299c8f12173d5f",
+  newsapi: (typeof process !== 'undefined' && process.env && process.env.NEWSAPI_KEY) || "2bc8d27aae254aaca3ddbb7327c19dbd", // Fallback for local dev
+  gnews: (typeof process !== 'undefined' && process.env && process.env.GNEWS_KEY) || "fef48df4fdad13f6c52033b4278515b4",
+  mediastack: (typeof process !== 'undefined' && process.env && process.env.MEDIASTACK_KEY) || "71abb6c5fc1aebd57b299c8f12173d5f",
 };
 const API_URLS = {
   newsapi: "https://newsapi.org/v2/top-headlines",
@@ -14,6 +14,9 @@ let currentPage = 1;
 let currentCategory = "all";
 let isLoading = false;
 let currentApi = "newsapi";
+
+// Determine if running locally
+const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 // DOM Elements
 const newsGrid = document.getElementById("news-grid");
@@ -73,32 +76,39 @@ async function fetchNews(category = "all", page = 1, query = "") {
   let url,
     articles = [];
   try {
+    console.log(`Attempting ${currentApi} for category: ${category}, page: ${page}, query: ${query}`);
     if (currentApi === "newsapi") {
       url = `${API_URLS.newsapi}?pageSize=${PAGE_SIZE}&page=${page}&apiKey=${API_KEYS.newsapi}&language=en`;
       const categoryParam = CATEGORY_MAPPINGS.newsapi[category] || "";
       if (categoryParam) url += `&${categoryParam}`;
       if (query) url += `&q=${encodeURIComponent(query)}`;
-      console.log(`Fetching from NewsAPI: ${url}`); // Debug log
-      const response = await fetch(url);
+      console.log(`NewsAPI URL: ${url}`);
+      const fetchUrl = isLocal ? url : `/api/proxy?api=newsapi&url=${encodeURIComponent(url)}`;
+      const response = await fetch(fetchUrl);
+      const text = await response.text();
+      console.log(`NewsAPI response status: ${response.status}, body: ${text}`);
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         throw new Error(`NewsAPI request failed: ${errorData.message || response.statusText}`);
       }
-      const data = await response.json();
+      const data = JSON.parse(text);
       articles = data.articles || [];
-      console.log(`NewsAPI response: ${articles.length} articles`); // Debug log
+      console.log(`NewsAPI articles: ${articles.length}`);
     } else if (currentApi === "gnews") {
       url = `${API_URLS.gnews}?max=${PAGE_SIZE}&page=${page}&token=${API_KEYS.gnews}`;
       const categoryParam = CATEGORY_MAPPINGS.gnews[category] || "";
       if (categoryParam) url += `&${categoryParam}`;
       if (query) url += `&q=${encodeURIComponent(query)}`;
-      console.log(`Fetching from GNews: ${url}`); // Debug log
-      const response = await fetch(url);
+      console.log(`GNews URL: ${url}`);
+      const fetchUrl = isLocal ? url : `/api/proxy?api=gnews&url=${encodeURIComponent(url)}`;
+      const response = await fetch(fetchUrl);
+      const text = await response.text();
+      console.log(`GNews response status: ${response.status}, body: ${text}`);
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         throw new Error(`GNews request failed: ${errorData.message || response.statusText}`);
       }
-      const data = await response.json();
+      const data = JSON.parse(text);
       articles = data.articles.map((article) => ({
         title: article.title,
         description: article.description,
@@ -106,7 +116,7 @@ async function fetchNews(category = "all", page = 1, query = "") {
         urlToImage: article.image,
         publishedAt: article.publishedAt,
       }));
-      console.log(`GNews response: ${articles.length} articles`); // Debug log
+      console.log(`GNews articles: ${articles.length}`);
     } else if (currentApi === "mediastack") {
       url = `${API_URLS.mediastack}?access_key=${
         API_KEYS.mediastack
@@ -114,13 +124,16 @@ async function fetchNews(category = "all", page = 1, query = "") {
       const categoryParam = CATEGORY_MAPPINGS.mediastack[category] || "";
       if (categoryParam) url += `&${categoryParam}`;
       if (query) url += `&keywords=${encodeURIComponent(query)}`;
-      console.log(`Fetching from Mediastack: ${url}`); // Debug log
-      const response = await fetch(url);
+      console.log(`Mediastack URL: ${url}`);
+      const fetchUrl = isLocal ? url : `/api/proxy?api=mediastack&url=${encodeURIComponent(url)}`;
+      const response = await fetch(fetchUrl);
+      const text = await response.text();
+      console.log(`Mediastack response status: ${response.status}, body: ${text}`);
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = JSON.parse(text);
         throw new Error(`Mediastack request failed: ${errorData.message || response.statusText}`);
       }
-      const data = await response.json();
+      const data = JSON.parse(text);
       articles = data.data.map((article) => ({
         title: article.title,
         description: article.description,
@@ -128,11 +141,11 @@ async function fetchNews(category = "all", page = 1, query = "") {
         urlToImage: article.image,
         publishedAt: article.published_at,
       }));
-      console.log(`Mediastack response: ${articles.length} articles`); // Debug log
+      console.log(`Mediastack articles: ${articles.length}`);
     }
     return articles.filter((article) => article.title && article.url);
   } catch (error) {
-    console.error(`Error fetching news from ${currentApi}:`, error.message);
+    console.error(`Error fetching news from ${currentApi}: ${error.message}`);
     const apis = Object.keys(API_URLS);
     const currentIndex = apis.indexOf(currentApi);
     currentApi = apis[(currentIndex + 1) % apis.length];
@@ -142,7 +155,7 @@ async function fetchNews(category = "all", page = 1, query = "") {
     }
     newsGrid.innerHTML = `
       <p class="text-center col-span-full text-gray-500 dark:text-gray-400">
-        Failed to load news for "${category}". Please check your API key or try again later.
+        Failed to load news for "${category}". Error: ${error.message}. Please check your API key or try again later.
       </p>
     `;
     return [];
@@ -241,7 +254,7 @@ categoryButtons.forEach((button) => {
     button.classList.add("active");
     currentCategory = button.dataset.category;
     currentPage = 1;
-    currentApi = "newsapi"; // Start with NewsAPI
+    currentApi = currentCategory === "india" ? "gnews" : "newsapi"; // Use GNews for India
     fetchNews(currentCategory, currentPage, searchInput.value).then(
       displayNews
     );

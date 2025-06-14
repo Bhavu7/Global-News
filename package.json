@@ -1,0 +1,23 @@
+{
+  "name": "global-news",
+  "version": "1.0.0",
+  "description": "![Global News Hub Screenshot](images/Screenshot_Light.jpg)",
+  "main": "script.js",
+    "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bhavu7/Global-News.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bhavu7/Global-News/issues"
+  },
+  "homepage": "https://github.com/Bhavu7/Global-News#readme"
+}
