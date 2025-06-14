@@ -1,6 +1,6 @@
 # Global News Hub
 
-![Global News Hub](Screenshot_Light.jpg)
+![Global News Hub Screenshot](images/Screenshot_Light.jpg)
 
 Global News Hub is a modern, responsive web application that aggregates and displays news articles from multiple sources using NewsAPI, GNews, and Mediastack. It features a sleek interface with category filters, search functionality, dark/light mode, and a newsletter subscription system powered by EmailJS. The project is deployed at [Will Deploy Later On](https://global-news-three.vercel.app/).
 
