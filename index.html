@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Global News Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-gray-100 dark:bg-black text-gray-900 dark:text-gray-100 font-inter transition-colors duration-300 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-gray-900 backdrop-blur-lg shadow-lg fixed w-full z-30">
+      <div class="container mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center">
+        <div class="flex justify-between items-center w-full sm:w-auto">
+          <a href="#" id="logo-link" class="flex items-center space-x-2">
+            <span class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">Global News Hub</span>
+          </a>
+          <button title="Menu" id="menu-toggle" class="sm:hidden p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
+            <svg class="w-6 h-6 text-gray-900 dark:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        <div id="nav-menu" class="hidden sm:flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto mt-2 sm:mt-0">
+          <div class="relative w-full sm:w-64">
+            <input
+              type="text"
+              id="search"
+              placeholder="Search news..."
+              class="w-full p-2.5 pl-10 pr-4 rounded-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 text-sm text-gray-900 dark:text-gray-100"
+              aria-label="Search news"
+            />
+            <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <button title="Toggle theme" id="theme-toggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <svg class="w-5 h-5 text-gray-900 dark:text-gray-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-20 sm:pt-24 pb-24">
+      <!-- Category Filters -->
+      <div id="categories" class="flex flex-wrap gap-2 mb-6 sm:mb-8 overflow-x-auto py-2">
+        <button class="category-btn px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 dark:hover:bg-blue-500 font-medium text-sm transition-all duration-300 active" data-category="all">All</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="india">India</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="world">World</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="technology">Tech</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="business">Business</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="sports">Sports</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="health">Health</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="science">Science</button>
+        <button class="category-btn px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 font-medium text-sm transition-all duration-300 text-gray-900 dark:text-gray-100" data-category="entertainment">Entertainment</button>
+      </div>
+
+      <!-- News Grid -->
+      <div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+      <!-- Loader -->
+      <div id="loader" class="hidden text-center my-8" aria-hidden="true">
+        <div class="spinner border-t-4 border-blue-600 dark:border-blue-500 w-12 h-12 rounded-full animate-spin mx-auto"></div>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div id="news-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-opacity duration-300">
+      <div class="bg-white dark:bg-gray-900 backdrop-blur-lg rounded-2xl w-11/12 sm:max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative shadow-2xl">
+        <button title="Close modal" id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div id="modal-content" class="prose dark:prose-invert max-w-none"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white dark:bg-black backdrop-blur-lg py-6 text-center shadow-lg z-10">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+          <p class="text-gray-600 dark:text-gray-400 text-sm">© 2025 Global News Hub. Powered by NewsAPI, GNews, and Mediastack.</p>
+          <div class="flex flex-wrap gap-4 text-sm">
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="all">All</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="india">India</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="world">World</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="technology">Technology</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="business">Business</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="sports">Sports</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="health">Health</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="science">Science</a>
+            <a href="#" class="category-link text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200" data-category="entertainment">Entertainment</a>
+            <a href="mailto:contact@globalnewshub.com" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">Contact</a>
+          </div>
+        </div>
+        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="flex gap-4">
+            <a rel="noopener" title="Links Title" href="https://x.com/BhaveshBhoi07" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+            <a rel="noopener" title="Links Title" href="https://www.facebook.com/bhavubhoi07?mibextid=ZbWKwL" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </svg>
+            </a>
+            <a rel="noopener" title="Links Title" href="https://instagram.com/developer_bhavesh" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm9.25 2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 7.75a4.25 4.25 0 1 1 0 8.5 4.25 4.25 0 0 1 0-8.5zm0 1.5a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5z" />
+              </svg>
+            </a>
+            <a rel="noopener" title="Links Title" href="https://github.com/Bhavu7" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.906-.015 3.3 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
+            </a>
+            <a rel="noopener" title="Links Title" href="https://codepen.io/bhavesh-bhoi" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 9.69v4.62L12 22l10-7.69V9.69L12 2zm8 11.31L15.45 16.5v-3l4.55-3.5v3.81zM12 15.19L7.45 12 12 8.81 16.55 12 12 15.19zM8.55 11.5v3L4 11.31V7.5l4.55 3.5z" />
+              </svg>
+            </a>
+            <a rel="noopener" title="Links Title" href="https://www.linkedin.com/in/bhavesh-bhoi-8949b42ab" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+              </svg>
+            </a>
+          </div>
+          <form id="newsletter-form" class="flex w-full sm:w-auto max-w-sm">
+            <input
+              type="email"
+              id="newsletter-email"
+              placeholder="Subscribe to newsletter"
+              class="p-2.5 flex-grow rounded-l-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm transition-all duration-300 text-gray-900 dark:text-gray-100"
+              required
+              aria-label="Newsletter email"
+            />
+            <button
+              type="submit"
+              id="subscribe-btn"
+              class="p-2.5 bg-blue-600 text-white rounded-r-full hover:bg-blue-700 dark:hover:bg-blue-500 transition-all duration-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Subscribe
+            </button>
+            <button
+              type="button"
+              id="unsubscribe-btn"
+              class="hidden p-2.5 bg-red-600 text-white rounded-full hover:bg-red-700 dark:hover:bg-red-500 transition-all duration-300 text-sm ml-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              Unsubscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+      emailjs.init("7h-6QenTRFE8VNWxe");
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
